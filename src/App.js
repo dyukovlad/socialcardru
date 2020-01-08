@@ -32,8 +32,6 @@ class App extends Component {
           <form name="sender">
             <input type="hidden" name="Shop_IDP" value="" />
             <input type="hidden" name="Order_IDP" value="" />
-            {/* <input type="hidden" name="Email" value="" />
-            <input type="hidden" name="Phone" value="" /> */}
             <input type="hidden" name="Subtotal_P" value="" />
             <input type="hidden" name="URL_RETURN" value="" />
             <input type="hidden" name="IData" value="" disabled />
