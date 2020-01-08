@@ -23,7 +23,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "https://socialcardru.herokuapp.com",
   "browserslist": {
     "production": [
       ">0.2%",
