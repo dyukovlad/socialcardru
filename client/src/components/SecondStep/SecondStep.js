@@ -231,6 +231,8 @@ class SecondStep extends Component {
 
       let url_sign = formSubmit(form);
 
+      console.log(form);
+
       this.setState({ url_payment: url_sign });
 
       //2 отправляем на запись в бд
