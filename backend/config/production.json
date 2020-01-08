@@ -6,5 +6,5 @@
   "mongoURI": "mongodb+srv://root:toor@cluster0-ytxpw.azure.mongodb.net/app?retryWrites=true&w=majority",
   "Shop_IDP": "00020224",
   "pass": "JRvZ1Z8FziPY5Pwnbyz6N9Y2GOt5QbUiMj7JOapj4ikIlaTG0Z4gxJSFLE0nI3wb1M1JajW1lyn1TJoS",
-  "baseUrl": "http://localhost:5000"
+  "baseUrl": "https://socialcardru.herokuapp.com/"
 }
