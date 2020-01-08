@@ -5,5 +5,6 @@
   "url_asop": "http://81.23.146.154/BSOP/default.asop",
   "mongoURI": "mongodb+srv://root:toor@cluster0-ytxpw.azure.mongodb.net/app?retryWrites=true&w=majority",
   "Shop_IDP": "00020224",
-  "pass": "JRvZ1Z8FziPY5Pwnbyz6N9Y2GOt5QbUiMj7JOapj4ikIlaTG0Z4gxJSFLE0nI3wb1M1JajW1lyn1TJoS"
+  "pass": "JRvZ1Z8FziPY5Pwnbyz6N9Y2GOt5QbUiMj7JOapj4ikIlaTG0Z4gxJSFLE0nI3wb1M1JajW1lyn1TJoS",
+  "baseUrl": "https://socialcardru.herokuapp.com/"
 }

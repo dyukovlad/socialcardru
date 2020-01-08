@@ -19,6 +19,8 @@ if (process.env.NODE_ENV === "production") {
 
 const PORT = config.get("port") || 5000;
 
+console.log(PORT);
+
 async function start() {
   try {
     await mongoose
