@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import Breadcrumbs from "./components/Breadcrumbs/Breabcrumbs";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Banner from "./components/Banner/Banner";
+import FirstStep from "./components/FirstStep/FirstStep";
+import SecondStep from "./components/SecondStep/SecondStep";
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isStep: true,
+      data: [],
+      card: ""
+    };
+  }
+
+  handleChangeInput = value => {
+    this.setState({
+      data: value.data,
+      isStep: false,
+      card: value.card
+    });
+  };
+
+  render() {
+    const { isStep, data, card } = this.state;
+    return (
+      <div className="container">
+        <main>
+          <Breadcrumbs />
+          <form name="sender">
+            <input type="hidden" name="Shop_IDP" value="" />
+            <input type="hidden" name="Order_IDP" value="" />
+            {/* <input type="hidden" name="Email" value="" />
+            <input type="hidden" name="Phone" value="" /> */}
+            <input type="hidden" name="Subtotal_P" value="" />
+            <input type="hidden" name="URL_RETURN" value="" />
+            <input type="hidden" name="IData" value="" disabled />
+            <input type="hidden" name="Lifetime" value="300" />
+            <input type="hidden" name="Customer_IDP" value="" disabled />
+            <input type="hidden" name="Signature" value="" />
+
+            {isStep ? (
+              <FirstStep onChangeInput={this.handleChangeInput} />
+            ) : (
+              <SecondStep data={data} card={card} />
+            )}
+          </form>
+          <Banner />
+        </main>
+      </div>
+    );
+  }
 }
 
 export default App;
