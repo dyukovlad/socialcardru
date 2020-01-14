@@ -160,7 +160,7 @@ router.post("/payment", async (req, res) => {
 router.post("/payresponse", async (req, res) => {
   try {
     // const { Order_ID, Status, Signature } = req.body;
-    console.log(req.body);
+    console.log(req);
     // if (Status === "paid") {
     //   await user.findOneAndUpdate(
     //     { Signature: Signature },
@@ -173,11 +173,11 @@ router.post("/payresponse", async (req, res) => {
     // }
 
     //возвращаем на фронт
-    // res.status(201).json({ data: currentCardPayment });
+    res.status(201).json({ message: "ОК", data: req });
 
     //send checkcard
   } catch (e) {
-    res.status(500).json({ message: "Что то пошло не так" });
+    res.status(500).json({ message: "Что то пошло не так=(", error: e });
   }
 });
 
