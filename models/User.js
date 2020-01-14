@@ -4,7 +4,7 @@ const schema = new Schema({
   client_time: { type: Date },
   card: { type: Number, required: true },
   id: { type: Number, required: true, unique: true },
-  orderIdPayment: { type: Number, required: true, unique: true },
+  orderIdPayment: { type: Number, unique: true },
   pdcode: { type: Number },
   mindate: { type: Date },
   summa: { type: Number },
