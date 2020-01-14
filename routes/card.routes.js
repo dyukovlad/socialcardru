@@ -153,27 +153,27 @@ router.post("/payment", async (req, res) => {
   }
 });
 
-// /payment/responce
+// /payresponce
 // Order_ID —номер заказа;
 // Status — статус (authorized, paid, canceled);
 // Signature
-router.post("/payment/response", async (req, res) => {
+router.post("/payresponse", async (req, res) => {
   try {
-    const { Order_ID, Status, Signature } = req.body;
+    // const { Order_ID, Status, Signature } = req.body;
     console.log(req.body);
-    if (Status === "paid") {
-      await user.findOneAndUpdate(
-        { Signature: Signature },
-        { orderIdPayment: Order_ID },
-        options,
-        callback
-      );
+    // if (Status === "paid") {
+    //   await user.findOneAndUpdate(
+    //     { Signature: Signature },
+    //     { orderIdPayment: Order_ID },
+    //     options,
+    //     callback
+    //   );
 
-      const currentCardPayment = await user.find({ Signature: Signature });
-    }
+    //   const currentCardPayment = await user.find({ Signature: Signature });
+    // }
 
     //возвращаем на фронт
-    res.status(201).json({ data: currentCardPayment });
+    // res.status(201).json({ data: currentCardPayment });
 
     //send checkcard
   } catch (e) {
