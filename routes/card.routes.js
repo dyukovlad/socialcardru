@@ -159,8 +159,8 @@ router.post("/payment", async (req, res) => {
 // Signature
 router.post("/payresponse", async (req, res) => {
   try {
-    // const { Order_ID, Status, Signature } = req.body;
-    console.log(req);
+    const { Order_ID, Status, Signature } = req.body;
+    console.log(Order_ID, Status, Signature);
     // if (Status === "paid") {
     //   await user.findOneAndUpdate(
     //     { Signature: Signature },
@@ -173,7 +173,12 @@ router.post("/payresponse", async (req, res) => {
     // }
 
     //возвращаем на фронт
-    res.status(201).json({ message: "ОК", data: req });
+    res.status(201).json({
+      message: "ОК",
+      Order_ID: Order_ID,
+      Status: Status,
+      Signature: Signature
+    });
 
     //send checkcard
   } catch (e) {
