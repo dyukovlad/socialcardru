@@ -153,6 +153,16 @@ router.post("/payment", async (req, res) => {
   }
 });
 
+router.get("/ping", (reg, res) => {
+  try {
+    res.status(201).json({
+      message: "Pong"
+    });
+  } catch (e) {
+    res.status(500).json({ message: "Плохо", error: e });
+  }
+});
+
 // /payresponce
 // Order_ID —номер заказа;
 // Status — статус (authorized, paid, canceled);
@@ -161,20 +171,11 @@ router.post("/payresponse", async (req, res) => {
   try {
     const { Order_ID, Status, Signature } = req.body;
     console.log(Order_ID, Status, Signature);
-    // if (Status === "paid") {
-    //   await user.findOneAndUpdate(
-    //     { Signature: Signature },
-    //     { orderIdPayment: Order_ID },
-    //     options,
-    //     callback
-    //   );
-
-    //   const currentCardPayment = await user.find({ Signature: Signature });
-    // }
 
     //возвращаем на фронт
     res.status(201).json({
       message: "ОК",
+      data: req.body,
       Order_ID: Order_ID,
       Status: Status,
       Signature: Signature
@@ -182,7 +183,9 @@ router.post("/payresponse", async (req, res) => {
 
     //send checkcard
   } catch (e) {
-    res.status(500).json({ message: "Что то пошло не так=(", error: e });
+    res
+      .status(500)
+      .json({ message: "Что то пошло не так!!! ", error: e, data: req.body });
   }
 });
 
