@@ -153,10 +153,13 @@ router.post("/payment", async (req, res) => {
   }
 });
 
-router.get("/ping", (reg, res) => {
+router.get("/ping", async (reg, res) => {
+  const currentCardPayment = await user.find({ id: 187 });
+  console.log("нашли", currentCardPayment);
   try {
     res.status(201).json({
-      message: "Pong"
+      message: "Pong",
+      data: req.body
     });
   } catch (e) {
     res.status(500).json({ message: "Плохо", error: e });
@@ -170,22 +173,16 @@ router.get("/ping", (reg, res) => {
 router.post("/payresponse", async (req, res) => {
   try {
     const { Order_ID, Status, Signature } = req.body;
-    console.log("Пришло на сервак", req);
 
-    //возвращаем на фронт
-    res.status(201).json({
-      message: "ОК",
-      data: req.body,
-      Order_ID: Order_ID,
-      Status: Status,
-      Signature: Signature
-    });
+    console.log("Вышло на сервак", res.body);
+    console.log("Пришло на сервак", req.body);
 
-    //send checkcard
+    //возвращаем положительный ответ
+    res.header("Content-Type", "application/x-www-form-urlencoded");
+    res.status(200);
   } catch (e) {
-    res
-      .status(500)
-      .json({ message: "Что то пошло не так!!! ", error: e, data: req.body });
+    //ошибка
+    res.status(500);
   }
 });
 

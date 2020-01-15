@@ -9,6 +9,16 @@ app.use(express.json({ extended: true }));
 
 app.use("/api/card", require("./routes/card.routes"));
 
+app.get("/get", function(req, res) {
+  console.log("GET request to the homepage 1");
+  // res.send("GET request to the homepage 2");
+  res.status(201).json({ message: "Hello" });
+});
+
+// router.get("/", async (req, res) => {
+// 	res.status(201).json({ message: "Hello" });
+// });
+
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.join(__dirname, "client", "build")));
 
