@@ -174,11 +174,10 @@ router.post("/payresponse", async (req, res) => {
   try {
     const { Order_ID, Status, Signature } = req.body;
 
-    console.log("Вышло на сервак", res.body);
+    console.log("Вышло на сервак", res);
     console.log("Пришло на сервак", req.body);
 
     //возвращаем положительный ответ
-    res.header("Content-Type", "application/x-www-form-urlencoded");
     res.status(200);
   } catch (e) {
     //ошибка
