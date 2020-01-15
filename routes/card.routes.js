@@ -4,6 +4,7 @@ const iconv = require("iconv-lite");
 const config = require("config");
 const axios = require("axios").default;
 const User = require("../models/User");
+const Pay = require("../models/Pay");
 
 const router = Router();
 
@@ -153,96 +154,82 @@ router.post("/payment", async (req, res) => {
   }
 });
 
-router.get("/ping", async (reg, res) => {
-  const currentCardPayment = await user.find({ id: 187 });
-  console.log("нашли", currentCardPayment);
-  try {
-    res.status(201).json({
-      message: "Pong",
-      data: req.body
-    });
-  } catch (e) {
-    res.status(500).json({ message: "Плохо", error: e });
-  }
-});
-
 // /payresponce
 // Order_ID —номер заказа;
 // Status — статус (authorized, paid, canceled);
 // Signature
 router.post("/payresponse", async (req, res) => {
   try {
-    const { Order_ID, Status, Signature, card } = req.body;
-    console.log("Пришло на сервак", req.body);
-    console.log(new Date().toISOString());
+    const { Order_ID, Status, Signature } = req.body;
+
+    const pay = new Pay({
+      Status,
+      Order_ID,
+      Signature
+    });
+
+    await pay.save();
+    res.status(200).json({ message: "Сохранили" });
+
+    sendToASOP(Status, Order_ID);
 
     //возвращаем положительный ответ
-    res
-      .status(201)
-      .json({ message: "OK", data: Order_ID, Status, Signature, card });
   } catch (e) {
     //ошибка
     res.status(500).json({ message: "BAD" });
   }
 });
 
-// router.post("/payment/response", async (req, res) => {
-//   try {
-//     const {
-//       client_time,
-//       card,
-//       id,
-//       pdcode,
-//       date,
-//       paydate,
-//       summa,
-//       payinfo,
-//       abonent,
-//       Signature
-//     } = req.body;
+async function sendToASOP(Status, Order_ID) {
+  if (Status == "autorized" || Status == "paid") {
+    const currentCardPayment = await User.find({ id: Order_ID });
+    console.log(currentCardPayment[0]);
 
-//     let xmlBodyStr = `<?xml version="1.0" encoding="windows-1251"?>
-//     <message><head>
-//       <api_version>1</api_version>
-//       <software_version>1</software_version>
-//       <message_type>Payment</message_type>
-//       <device_type>LK</device_type>
-//       <terminal_code>${config.get("terminal_code")}</terminal_code>
-//       <system_code>${config.get("system_code")}</system_code>
-//       <client_time>${client_time}</client_time>
-//     </head><body>
-//     <printnum>${card}</printnum>
-//     <id>${id}</id>
-//     <pdcode>${pdcode}</pdcode>
-//     <type>1</type>
-//     <date>${date}</date>
-//       <paydate>${paydate}</paydate>
-//       <summa>${summa}</summa>
-//       <payinfo>${payinfo}</payinfo >
-//       <payform>1</payform >
-//       <abonent>${abonent}</abonent >
-//       <operator>0</operator >
-//     </body></message>`;
+    if (currentCardPayment) {
+      //1) сохраняем все переменные
+      let curUser = currentCardPayment[0];
+      //2) отправляем
+      let xmlBodyStr = `<?xml version="1.0" encoding="windows-1251"?>
+    <message><head>
+      <api_version>1</api_version>
+      <software_version>1</software_version>
+      <message_type>Payment</message_type>
+      <device_type>LK</device_type>
+      <terminal_code>${config.get("terminal_code")}</terminal_code>
+      <system_code>${config.get("system_code")}</system_code>
+      <client_time>${curUser.client_time}</client_time>
+    </head><body>
+    <printnum>${curUser.card}</printnum>
+    <id>${curUser.id}</id>
+    <pdcode>${curUser.pdcode}</pdcode>
+    <type>1</type>
+    <date>${date}</date>
+      <paydate>${new Date().toISOString()}</paydate>
+      <summa>${curUser.summa}</summa>
+      <payinfo>${Order_ID}</payinfo >
+      <payform>1</payform >
+      <abonent>${curUser.abonent}</abonent >
+      <operator>1</operator >
+    </body></message>`;
 
-//     let body = await axios
-//       .post(config.get("url_asop"), xmlBodyStr, {
-//         responseType: "arraybuffer"
-//       })
-//       .catch(err => {
-//         res.status(500).json(err);
-//       });
+      let body = await axios
+        .post(config.get("url_asop"), xmlBodyStr, {
+          responseType: "arraybuffer"
+        })
+        .catch(err => {
+          res.status(500).json(err);
+        });
 
-//     let responseData = iconv.decode(body.data, "win1251");
+      let responseData = iconv.decode(body.data, "win1251");
 
-//     // console.log(str);
+      console.log(responseData);
 
-//     //возвращаем на фронт
-//     res.status(201).json({ data: responseData });
-
-//     //send checkcard
-//   } catch (e) {
-//     res.status(500).json({ message: "Что то пошло не так" });
-//   }
-// });
+      //возвращаем на фронт
+      res.status(201).json({ data: responseData });
+    }
+  } else {
+    res.status(500).json({ message: "BAD" });
+  }
+}
 
 module.exports = router;
