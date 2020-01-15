@@ -172,16 +172,17 @@ router.get("/ping", async (reg, res) => {
 // Signature
 router.post("/payresponse", async (req, res) => {
   try {
-    const { Order_ID, Status, Signature } = req.body;
-
-    console.log("Вышло на сервак", res);
+    const { Order_ID, Status, Signature, card } = req.body;
     console.log("Пришло на сервак", req.body);
+    console.log(new Date().toISOString());
 
     //возвращаем положительный ответ
-    res.status(200);
+    res
+      .status(201)
+      .json({ message: "OK", data: Order_ID, Status, Signature, card });
   } catch (e) {
     //ошибка
-    res.status(500);
+    res.status(500).json({ message: "BAD" });
   }
 });
 

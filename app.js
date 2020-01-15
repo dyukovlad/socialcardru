@@ -1,11 +1,18 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const config = require("config");
 const path = require("path");
 const mongoose = require("mongoose");
 
 const app = express();
-console.error("Start backend build");
-app.use(express.json({ extended: true }));
+
+// app.use(express.json({ extended: true }));
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 app.use("/api/card", require("./routes/card.routes"));
 
