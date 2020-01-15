@@ -170,7 +170,7 @@ router.get("/ping", (reg, res) => {
 router.post("/payresponse", async (req, res) => {
   try {
     const { Order_ID, Status, Signature } = req.body;
-    console.log("Пришло на сервак", req.body);
+    console.log("Пришло на сервак", req);
 
     //возвращаем на фронт
     res.status(201).json({
