@@ -118,18 +118,20 @@ router.post("/payresponse", async (req, res) => {
     // сохраняем ответ
     await pay.save();
 
+    console.log("сохранили ответ");
+
     if (Status == "autorized" || Status == "paid") {
       const paySend = new PaymentASOP(Order_ID);
 
       await paySend.sendPaymentASOP();
     }
 
-    res.status(200).json({ message: "Сохранили" });
+    res.status(200).json({ message: "Успешно" });
 
     //возвращаем положительный ответ
   } catch (e) {
     //ошибка
-    res.status(500).json({ message: "BAD" });
+    res.status(500).json({ message: "BAD", error: e });
   }
 });
 

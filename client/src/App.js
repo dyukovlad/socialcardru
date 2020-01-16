@@ -5,6 +5,9 @@ import Banner from "./components/Banner/Banner";
 import FirstStep from "./components/FirstStep/FirstStep";
 import SecondStep from "./components/SecondStep/SecondStep";
 
+// проверка результата
+// https://socialcardru.herokuapp.com/?Order_ID=219
+
 class App extends Component {
   constructor(props) {
     super(props);

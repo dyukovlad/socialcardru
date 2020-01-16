@@ -12,7 +12,7 @@ class PaymentASOP {
 
   async sendPaymentASOP() {
     try {
-      const currentCardPayment = await User.find({ id: this.Order_ID });
+      const currentCardPayment = await User.findOne({ id: this.Order_ID });
 
       if (currentCardPayment) {
         const curUser = currentCardPayment[0];
@@ -31,7 +31,7 @@ class PaymentASOP {
             <id>${curUser.id}</id>
             <pdcode>${curUser.pdcode}</pdcode>
             <type>1</type>
-            <date>${date}</date>
+            <date>${curUser.mindate}</date>
               <paydate>${new Date().toISOString()}</paydate>
               <summa>${curUser.summa}</summa>
               <payinfo>${this.Order_ID}</payinfo >
